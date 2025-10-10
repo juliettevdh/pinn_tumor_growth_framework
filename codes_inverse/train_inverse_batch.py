@@ -2,13 +2,9 @@ import os
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
-from model import DNN_builder
 from tensorflow_graphics.math.interpolation import trilinear as interp3d
 from data_utils_inverse import load_mat, load_nifti
-from scipy.optimize import minimize
 from matplotlib.ticker import LogLocator, LogFormatterSciNotation
-
-
 
 tf.keras.backend.set_floatx("float64")
 
@@ -57,7 +53,6 @@ def train_pinn(model, data, config, save_dir):
     
     r = tf.Variable(tf.math.log(tf.constant(1e-2, dtype=tf.float64)), dtype=tf.float64, trainable=True)
     D = tf.Variable(tf.math.log(tf.constant(1e-6, dtype=tf.float64)), dtype=tf.float64, trainable=True)
-    # Residual definition
     @tf.function
     def f(x, y, t):
         v = tf.concat([x, y, t], axis=1)
@@ -76,12 +71,10 @@ def train_pinn(model, data, config, save_dir):
 
         t_max = 200.0
 
-
         F = (u_tau - t_max*(tf.exp(D) * diff_map * (u_xx + u_yy) + tf.exp(r) * u * (1 - u))) * pff_map
         return F
     
     alpha = config["train"]["alpha"]
-    beta = config["train"]["beta"]
     gamma = config["train"]["gamma"]
     
     @tf.function
@@ -96,8 +89,6 @@ def train_pinn(model, data, config, save_dir):
         opt.apply_gradients(zip(grads, model.trainable_weights + [D,r]))
         return loss, l_data, L_phys, grads, D, r
     
-    
-
     # Optimization
     if config["train"]["optimizer"] == "Adam":
         opt = tf.keras.optimizers.Adam(learning_rate=config["train"]["lr"])
@@ -114,8 +105,6 @@ def train_pinn(model, data, config, save_dir):
     r_list = []
     D_list = []
     D_val_phys = []
-    grad_r_list = []
-    grad_D_list = []
     loss_data = []
     loss_pde = []
     grad_list_norm = []
@@ -212,7 +201,6 @@ def train_pinn(model, data, config, save_dir):
 
 
     #plot loss history but separated, loss for data and loss for physics
-    # Force fontsize 9 globally for this plot
     plt.rcParams.update({'font.size': 9})
     fig, ax = plt.subplots(figsize=(10, 5))
     ax.semilogy(np.arange(len(loss_data)), loss_data, label='Loss data', color="#237764", linewidth=1.4)
@@ -220,19 +208,14 @@ def train_pinn(model, data, config, save_dir):
     ax.set_xlabel('Epochs x1000', fontsize=9)
     ax.set_ylabel('Loss (log scale)', fontsize=9)
     ax.set_title('Training Loss History', fontsize=9)
-    
-    # Set tick label fontsize explicitly
     ax.tick_params(axis='both', which='major', labelsize=9)
     ax.tick_params(axis='both', which='minor', labelsize=9)
-    
     ax.legend(fontsize=9)
     ax.grid(True, which='both', linestyle='--', linewidth=0.5)
     fig.tight_layout()
     fig.savefig(os.path.join(save_dir, 'loss_history_separated.png'), dpi=300)
     fig.savefig(os.path.join(save_dir, 'loss_history_separated.svg'), dpi=300)
     plt.close(fig)
-    
-    # Reset rcParams to default after plot
     plt.rcParams.update(plt.rcParamsDefault)
 
 

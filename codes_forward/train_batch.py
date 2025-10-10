@@ -2,11 +2,8 @@ import os
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
-from model import DNN_builder
 from tensorflow_graphics.math.interpolation import trilinear as interp3d
 from data_utils import load_mat, load_nifti
-from scipy.optimize import minimize
-
 
 tf.keras.backend.set_floatx("float64")
 
@@ -54,9 +51,6 @@ def train_pinn(model, data, config, save_dir):
         coords = tf.concat([i_x, i_y, i_z], axis=1)
         return interp3d.interpolate(tf.convert_to_tensor(diff_mapped, dtype=tf.float32), coords)
     
-    # r = tf.Variable(tf.math.log(tf.constant(1e-2, dtype=tf.float64)), dtype=tf.float64, trainable=True)
-    # D = tf.Variable(tf.math.log(tf.constant(1e-3, dtype=tf.float64)), dtype=tf.float64, trainable=True)
-    # Residual definition
     @tf.function
     def f(x, y, t):
         v = tf.concat([x, y, t], axis=1)
@@ -79,6 +73,7 @@ def train_pinn(model, data, config, save_dir):
         r = config["physics"]["r"]
         D_norm = D * 0.5 * ((2./180)**2 + (2./150)**2)
         t_max = 200.0
+
         F = (u_tau - t_max * (D_norm * diff_map * (u_xx + u_yy) + r * u * (1 - u))) * pff_map
         return F
     
@@ -113,10 +108,6 @@ def train_pinn(model, data, config, save_dir):
         raise ValueError("Unsupported optimizer")
 
     loss_history = []
-    #r_list = []
-    #D_list = []
-    #grad_r_list = []
-    #grad_D_list = []
     loss_data = []
     loss_pde = []
     grad_list_norm = []
@@ -167,53 +158,8 @@ def train_pinn(model, data, config, save_dir):
     np.savetxt(os.path.join(save_dir, "loss_data.txt"), np.array(loss_data))
     np.savetxt(os.path.join(save_dir, "loss_pde.txt"), np.array(loss_pde))
     np.savetxt(os.path.join(save_dir, "grad_norm_history.txt"), np.array(grad_list_norm))
-    #np.savetxt(os.path.join(save_dir, "r_history.txt"), np.array(r_list))
-    #np.savetxt(os.path.join(save_dir, "D_history.txt"), np.array(D_list))
-    #np.savetxt(os.path.join(save_dir, "grad_r_norm_history.txt"), np.array(grad_r_list))
-    #np.savetxt(os.path.join(save_dir, "grad_D_norm_history.txt"), np.array(grad_D_list))
 
-    # from matplotlib.ticker import LogLocator, LogFormatterSciNotation
-    # fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 5))
-
-    # epochs_D = np.arange(len(D_list))
-    # epochs_r = np.arange(len(r_list))
-
-    # #D plot
-    # ax1.plot(epochs_D, D_list, label='D', color='#1f77b4', linewidth=1.4)
-    # ax1.axhline(y=config["physics"]["D"], color='#1f77b4', linestyle='--', label='True D')
-    # ax1.set_yscale('log')
-    # ax1.set_ylabel('D value')
-    # ax1.set_title('Diffusion Coefficient D over Training', fontsize=11)
-    # ax1.grid(which='major', linestyle='-', alpha=0.6)
-    # ax1.grid(which='minor', linestyle=':', alpha=0.4)
-    # # More ticks: majors at every power, minors subdividing
-    # ax1.yaxis.set_major_locator(LogLocator(base=10.0, numticks=12))
-    # ax1.yaxis.set_minor_locator(LogLocator(base=10.0, subs=np.arange(2, 10)*0.1, numticks=100))
-    # ax1.yaxis.set_major_formatter(LogFormatterSciNotation())
-    # ax1.legend(fontsize=9, frameon=True)
-
-    # # r plot
-    # ax2.plot(epochs_r, r_list, label='r', color='#ff7f0e', linewidth=1.4)
-    # ax2.axhline(y=config["physics"]["r"], color='#ff7f0e', linestyle='--', label='True r')
-    # ax2.set_yscale('log')
-    # ax2.set_xlabel('Epochs')
-    # ax2.set_ylabel('r value')
-    # ax2.set_title('Proliferation Rate r over Training', fontsize=11)
-    # ax2.grid(which='major', linestyle='-', alpha=0.6)
-    # ax2.grid(which='minor', linestyle=':', alpha=0.4)
-    # ax2.yaxis.set_major_locator(LogLocator(base=10.0, numticks=12))
-    # ax2.yaxis.set_minor_locator(LogLocator(base=10.0, subs=np.arange(2, 10)*0.1, numticks=100))
-    # ax2.yaxis.set_major_formatter(LogFormatterSciNotation())
-    # ax2.legend(fontsize=9, frameon=True)
-
-    # fig.tight_layout()
-    # fig.savefig(os.path.join(save_dir, "D_r_history.png"), dpi=300)
-    # fig.savefig(os.path.join(save_dir, "D_r_history.svg"), dpi=300)
-    # plt.close(fig)
-
-
-    #plot loss history but separated, loss for data and loss for physics
-    # Force fontsize 9 globally for this plot
+    # Loss history plot with separated losses
     plt.rcParams.update({'font.size': 9})
     fig, ax = plt.subplots(figsize=(10, 5))
     ax.semilogy(np.arange(len(loss_data)), loss_data, label='Loss data', color="#237764", linewidth=1.4)
@@ -221,19 +167,14 @@ def train_pinn(model, data, config, save_dir):
     ax.set_xlabel('Epochs x1000', fontsize=9)
     ax.set_ylabel('Loss (log scale)', fontsize=9)
     ax.set_title('Training Loss History', fontsize=9)
-    
-    # Set tick label fontsize explicitly
     ax.tick_params(axis='both', which='major', labelsize=9)
     ax.tick_params(axis='both', which='minor', labelsize=9)
-    
     ax.legend(fontsize=9)
     ax.grid(True, which='both', linestyle='--', linewidth=0.5)
     fig.tight_layout()
     fig.savefig(os.path.join(save_dir, 'loss_history_separated.png'), dpi=300)
     fig.savefig(os.path.join(save_dir, 'loss_history_separated.svg'), dpi=300)
     plt.close(fig)
-    
-    # Reset rcParams to default after plot
     plt.rcParams.update(plt.rcParamsDefault)
 
 

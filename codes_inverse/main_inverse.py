@@ -6,7 +6,7 @@ from model import DNN_builder
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import time
-import numpy as np  # added for optional smoothing
+import numpy as np
 
 def run_experiment(config):
     # Create unique folder for experiment
@@ -36,38 +36,27 @@ def run_experiment(config):
         f.write(f"Training time: {end_time - start_time:.2f} seconds\n")
         f.write(f"Final loss: {loss_history[-1] if len(loss_history) > 0 else -1}\n")
         
-    #plot loss (enhanced, no smoothing)
-    # Force fontsize 9 globally for this plot
+    #plot loss history
     plt.rcParams.update({'font.size': 9})
     plt.style.use('seaborn-v0_8-darkgrid')  # modern style with grid
     fig, ax = plt.subplots(figsize=(10, 5))
     epochs = np.arange(1, len(loss_history) + 1)
     ax.semilogy(epochs, loss_history, label='Loss', color='#1f77b4', linewidth=1.4, alpha=0.9)
-
     ax.set_title('Training Loss History', fontsize=9, pad=12)
     ax.set_xlabel('Epochs x1000', fontsize=9)
     ax.set_ylabel('Loss (log scale)', fontsize=9)
-
-    # Minor ticks + grid refinement
     ax.minorticks_on()
     ax.grid(which='major', linestyle='-', linewidth=0.6, alpha=0.7)
     ax.grid(which='minor', linestyle=':', linewidth=0.4, alpha=0.5)
-    
-    # Set tick label fontsize explicitly
     ax.tick_params(axis='both', which='major', labelsize=9)
     ax.tick_params(axis='both', which='minor', labelsize=9)
-
-    # Annotate final loss
     final_loss = loss_history[-1]
     ax.text(0.99, 0.95, f"Final: {final_loss:.2e}", transform=ax.transAxes, ha='right', va='top', fontsize=9,
         bbox=dict(boxstyle='round,pad=0.25', fc='white', ec='#888', alpha=0.8))
-
     ax.legend(frameon=True, fontsize=9)
     fig.savefig(os.path.join(save_dir, 'loss_history.svg'), dpi=300)
     fig.savefig(os.path.join(save_dir, 'loss_history.png'), dpi=300)
     plt.close(fig)
-    
-    # Reset rcParams to default after plot
     plt.rcParams.update(plt.rcParamsDefault)
 
     # Visualization

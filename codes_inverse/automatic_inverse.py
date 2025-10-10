@@ -18,14 +18,6 @@ EXPERIMENTS = [
      
 ]
 
-
-os.makedirs("experiments_inverse_good", exist_ok=True)
-results_file = "experiments_inverse_good/results.csv"
-
-with open(results_file, mode='w', newline='') as f:
-    writer = csv.writer(f)
-    writer.writerow(["beta", "n_inside", "n_ic", "n_outside", "D", "r", "neurons", "number_of_resamples", "epochs", "resample_epochs", "lr", "n_hidden_layers", "actfn", "final_loss", "exp_id"])
-
 for exp in EXPERIMENTS:
     print(f"\n🚀 Running: {exp}")
     config = {
@@ -70,13 +62,3 @@ for exp in EXPERIMENTS:
 
     loss_history = run_experiment(config)
     final_loss = loss_history[-1] if len(loss_history) > 0 else -1
-
-    with open(results_file, mode='a', newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow([
-            exp["radius"], exp["beta"], exp["n_inside"], exp["n_ic"], exp["n_outside"],
-            exp["D"], exp["r"], exp["neurons"], final_loss, exp["epochs"],
-            exp["lr"], exp["n_hidden_layers"], exp["actfn"], exp["phi_slice_z"]
-        ])
-
-print(f"\n✅ Sweep terminé : {results_file}")

@@ -94,11 +94,7 @@ def visualize_solution_evolution(model, diff_slice, phi_slice, save_dir, gif_nam
     os.makedirs(save_dir, exist_ok=True)
     filenames = []
 
-    # FDM reference once for all time steps
     x_fdm, y_fdm, t_fdm, u_fdm = fdm_fisher_kpp_2d(diff_slice, phi_slice, D_phys=D, rho_phys=r)
-    X_fdm, Y_fdm = np.meshgrid(x_fdm, y_fdm, indexing='ij')
-    global_min_ufdm = np.min(u_fdm)
-    global_max_ufdm = np.max(u_fdm)
 
     for i, t_plot in enumerate(t_snap):
         # PINN prediction
@@ -106,34 +102,14 @@ def visualize_solution_evolution(model, diff_slice, phi_slice, save_dir, gif_nam
         T_flat = T_flat/200.0
         XYT = np.hstack([X_flat, Y_flat, T_flat])
         u_pred = model.predict(XYT, verbose=0).reshape((Nx,Ny))
-        
-        #u_pred[u_pred < value_threshold] = 0.0
 
         # FDM slice
         idx_t = np.argmin(np.abs(t_fdm - t_plot))
         u_fdm_t = u_fdm[:, :, idx_t]
-        #u_fdm_t[u_fdm_t < value_threshold] = 0.0
-        max_ufdm = np.max(u_fdm_t)
-        min_ufdm = np.min(u_fdm_t)
-
-        print("diff", u_fdm_t - u_pred)
-
-        #computation of the dice score
-        # Convert to binary masks using a threshold (e.g., 0.1)
-        threshold = 0
-        u_pred_binary = (u_pred > threshold).astype(int)
-        u_fdm_binary = (u_fdm_t > threshold).astype(int)
-        intersection = np.sum(u_pred_binary & u_fdm_binary)
-        union = np.sum(u_pred_binary) + np.sum(u_fdm_binary)
-        dice_score = (2. * intersection) / union if union != 0 else 1.0
-        with open(f"{save_dir}/new_dice_scores.txt", "a") as f:
-            f.write(f"t={t_plot:.2f}, Dice score: {dice_score:.4f}\n")
 
         # Error
         error = np.abs(u_pred - u_fdm_t)
         error = np.where(error < 0.01, 0, error)
-        # Relative error
-        # Relative error
         epsilon = 1e-4
         relative_error = np.where((u_fdm_t < 0.01) & (u_pred < 0.01), 0, error / ((u_fdm_t) + epsilon))
         relative_error_in_percent = relative_error * 100
@@ -149,10 +125,6 @@ def visualize_solution_evolution(model, diff_slice, phi_slice, save_dir, gif_nam
 
         fig, ax = plt.subplots(1, 4, figsize=(20, 5))
         for a in ax: a.set_axis_off()
-
-        # u_pred_masked = np.ma.masked_where(u_pred < 0.005, u_pred)
-        # u_fdm_masked = np.ma.masked_where(u_fdm_t < 0.005, u_fdm_t)
-        # error_masked = np.ma.masked_where(relative_error_in_percent < 0.000001, relative_error_in_percent)  # adjust threshold if needed
 
         # PINN plot
         pcm0 = ax[0].imshow(u_pred, cmap="plasma", origin="lower", vmin=0, vmax=1, label = "Tumor cells density [-]")
@@ -173,12 +145,10 @@ def visualize_solution_evolution(model, diff_slice, phi_slice, save_dir, gif_nam
         ax[3].imshow(diff_slice, cmap="gray", origin="lower", alpha=0.3)
         ax[3].set_title(f"Absolute error [-] | t={(t_plot)} days", fontsize=13)
 
-
         fig.colorbar(pcm0, ax=ax[0])
         fig.colorbar(pcm1, ax=ax[1])
         fig.colorbar(pcm2, ax=ax[2])
         fig.colorbar(pcm3, ax=ax[3])
-
         plt.suptitle(r"Comparison | $D_w=0.013 \ [mm²/day]$ | $\rho=0.012 \ [1/day]$", fontsize=13)
         filename = f"{save_dir}/comparison_{i:03d}_inverse.png"
         filenames.append(filename)

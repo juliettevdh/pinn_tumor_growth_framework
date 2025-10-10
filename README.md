@@ -12,8 +12,6 @@ This repository contains the processing, training, and visualization scripts, al
   - [Forward Model](#1-forward-model)
   - [Inverse Model](#2-inverse-model)
 - [📊 Script Details](#-script-details)
-- [📂 Data](#-data)
-- [📈 Results](#-results)
 - [✍️ Author](#️-author)
 
 ---
@@ -23,8 +21,6 @@ This repository contains the processing, training, and visualization scripts, al
 The repository is organized into several main directories, separating forward modeling, inverse modeling, data, and results.
 ```
 .
-├── .venv_biostec/ # Python virtual environment
-│
 ├── codes_forward/ # Forward modeling and simulation scripts
 │ ├── automatic.py # Automates forward simulations
 │ ├── data_utils.py # Data loading and preprocessing functions
@@ -43,16 +39,5 @@ The repository is organized into several main directories, separating forward mo
 │ ├── train_inverse_batch.py # Training for inverse estimation
 │ ├── visualisation.py # Visualization tools for inverse results
 │ └── pycache/ # Compiled Python cache files
-│
-├── data/ # Data for 8 patients
-│ ├── P1/ 
-│ ├── P2/
-│ ├── P3/
-│ ├── P4/
-│ ├── P5/
-│ ├── P6/
-│ ├── P7/
-│ └── P8/
-│
-├── results/ # Output directory for generated results and figures
+
 ```
