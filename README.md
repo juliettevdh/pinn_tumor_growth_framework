@@ -40,6 +40,7 @@ The repository is organized into several main directories, separating forward mo
 
 ## ⚙️ Installation
 A virtual environment with the following requirements should be created: 
+```
 absl-py==2.3.1
 array_record==0.8.1
 astunparse==1.6.3
@@ -123,6 +124,7 @@ urllib3==2.5.0
 Werkzeug==3.1.3
 wrapt==1.17.3
 zipp==3.23.0
+```
 
 ## 🚀 Usage
 
