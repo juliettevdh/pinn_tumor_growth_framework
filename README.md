@@ -1,6 +1,6 @@
 # 🧠 Tumor Growth Simulation with PINN Project
 
-Python project for **forward (direct)** and **inverse** modeling of tumor growth using Physics-Informed Neural Networks (PINNs).  
+Python project for **forward** and **inverse** modeling of tumor growth using Physics-Informed Neural Networks (PINNs).  
 This repository contains the processing, training, and visualization scripts, along with the corresponding experimental data files.
 
 ---
