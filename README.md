@@ -21,7 +21,7 @@ This repository contains the processing, training, and visualization scripts, al
 ## 📁 Project Structure
 
 The repository is organized into several main directories, separating forward modeling, inverse modeling, data, and results.
-```` ``` ````
+```
 .
 ├── .venv_biostec/ # Python virtual environment
 │
@@ -55,4 +55,4 @@ The repository is organized into several main directories, separating forward mo
 │ └── P8/
 │
 ├── results/ # Output directory for generated results and figures
-```` ``` ````
+```
