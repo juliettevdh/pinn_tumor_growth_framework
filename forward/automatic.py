@@ -1,3 +1,9 @@
+# This script runs a series of experiments for the forward problem
+# using different hyperparameters and configurations. Each experiment's
+# settings are defined in the EXPERIMENTS list, and the run_experiment
+# function is called with the corresponding configuration.
+
+
 from main import run_experiment
 
 EXPERIMENTS = [
@@ -8,49 +14,49 @@ EXPERIMENTS = [
     "D": 0.013, "r": 0.012, "radius": 0.35,
     "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
     "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 20000, "lr": 1e-3, "optimizer": "Adam",
+    "epochs": 20000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 256,
     "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"},
 
     {"name": "arch_01", "ic_x": 0.4, "ic_y": 0.4,
     "D": 0.013, "r": 0.012, "radius": 0.35,
     "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
     "neurons": 32, "n_hidden_layers": 3, "actfn": "tanh",
-    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam",
+    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 256,
     "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"},
 
     {"name": "lr_02", "ic_x": 0.4, "ic_y": 0.4,
     "D": 0.013, "r": 0.012, "radius": 0.35,
     "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
     "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 120000, "lr": 1e-4, "optimizer": "Adam",
+    "epochs": 120000, "lr": 1e-4, "optimizer": "Adam", "batch_size": 256,
     "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"},
 
     {"name": "arch_03", "ic_x": 0.4, "ic_y": 0.4,
     "D": 0.013, "r": 0.012, "radius": 0.35,
     "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
     "neurons": 64, "n_hidden_layers": 3, "actfn": "tanh",
-    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam",
+    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 256,
     "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"},
 
     {"name": "arch_04", "ic_x": 0.4, "ic_y": 0.4,
     "D": 0.013, "r": 0.012, "radius": 0.35,
     "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
     "neurons": 64, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam",
+    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 256,
     "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"},
      
     {"name": "arch_05", "ic_x": 0.4, "ic_y": 0.4,
     "D": 0.013, "r": 0.012, "radius": 0.35,
     "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
     "neurons": 128, "n_hidden_layers": 3, "actfn": "tanh",
-    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam",
+    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 256,
     "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"},
 
     {"name": "arch_06", "ic_x": 0.4, "ic_y": 0.4,
     "D": 0.013, "r": 0.012, "radius": 0.35,
     "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
     "neurons": 128, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam",
+    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 256,
     "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"},
 
     # === OPTIMIZER ===
@@ -59,21 +65,21 @@ EXPERIMENTS = [
     "D": 0.013, "r": 0.012, "radius": 0.35,
     "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
     "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 120000, "lr": 1e-3, "optimizer": "SGD",
+    "epochs": 120000, "lr": 1e-3, "optimizer": "SGD", "batch_size": 256,
     "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"},
 
     {"name": "opt_03", "ic_x": 0.4, "ic_y": 0.4,
     "D": 0.013, "r": 0.012, "radius": 0.35,
     "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
     "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 120000, "lr": 1e-3, "optimizer": "RMSprop",
+    "epochs": 120000, "lr": 1e-3, "optimizer": "RMSprop", "batch_size": 256,
     "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"},
 
     {"name": "opt_04", "ic_x": 0.4, "ic_y": 0.4,
     "D": 0.013, "r": 0.012, "radius": 0.35,
     "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
     "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 120000, "lr": 1e-3, "optimizer": "AdamW",
+    "epochs": 120000, "lr": 1e-3, "optimizer": "AdamW", "batch_size": 256,
     "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"},
 
     # === LEARNING RATE ===
@@ -82,14 +88,14 @@ EXPERIMENTS = [
     "D": 0.013, "r": 0.012, "radius": 0.35,
     "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
     "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 120000, "lr": 1e-2, "optimizer": "Adam",
+    "epochs": 120000, "lr": 1e-2, "optimizer": "Adam", "batch_size": 256,
     "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"},
 
     {"name": "lr_02", "ic_x": 0.4, "ic_y": 0.4,
     "D": 0.013, "r": 0.012, "radius": 0.35,
     "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
     "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 120000, "lr": 1e-4, "optimizer": "Adam",
+    "epochs": 120000, "lr": 1e-4, "optimizer": "Adam", "batch_size": 256,
     "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"},
 
     # === LOSS WEIGHTS ===
@@ -98,21 +104,21 @@ EXPERIMENTS = [
     "D": 0.013, "r": 0.012, "radius": 0.35,
     "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
     "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam",
+    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 256,
     "alpha": 0.1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"},
 
     {"name": "loss_02", "ic_x": 0.4, "ic_y": 0.4,
     "D": 0.013, "r": 0.012, "radius":0.35,
     "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
     "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam",
+    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 256,
     "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"},
 
     {"name": "loss_03", "ic_x": 0.4, "ic_y": 0.4,
     "D": 0.013, "r": 0.012, "radius": 0.35,
     "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
     "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam",
+    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 256,
     "alpha": 1, "beta": 1, "gamma": 10, "phi_slice_z": 166, "strategy": "centered"},
 
     # === SAMPLING ===
@@ -120,7 +126,7 @@ EXPERIMENTS = [
     "D": 0.013, "r": 0.012, "radius": 0.35,
     "n_inside": 20000, "n_ic": 5000, "n_outside": 5000,
     "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam",
+    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 256,
     "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"},
     
 
@@ -128,14 +134,14 @@ EXPERIMENTS = [
     "D": 0.013, "r": 0.012, "radius": 0.35,
     "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
     "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam",
+    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 256,
     "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
 
     {"name": "sample_03", "ic_x": 0.4, "ic_y": 0.4,
     "D": 0.013, "r": 0.012, "radius":0.35,
     "n_inside": 5000, "n_ic": 5000, "n_outside": 5000,
     "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam",
+    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 256,
     "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"},
 
     # === ACTIVATION FUNCTION ===
@@ -144,21 +150,21 @@ EXPERIMENTS = [
     "D": 0.013, "r": 0.012, "radius": 0.35,
     "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
     "neurons": 32, "n_hidden_layers": 5, "actfn": "relu",
-    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam",
+    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 256,
     "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"}, 
 
     {"name": "actfn_02", "ic_x": 0.4, "ic_y": 0.4,
     "D": 0.013, "r": 0.012, "radius":0.35,
     "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
     "neurons": 32, "n_hidden_layers": 5, "actfn": "swish",
-    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam",
+    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 256,
     "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"}, 
 
     {"name": "actfn_03", "ic_x": 0.4, "ic_y": 0.4,
     "D": 0.013, "r": 0.012, "radius": 0.35,
     "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
     "neurons": 32, "n_hidden_layers": 5, "actfn": "sigmoid",
-    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam",
+    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 256,
     "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"},   
 
      # === OTHER INITIALIZATION ===
@@ -167,14 +173,14 @@ EXPERIMENTS = [
     "D": 0.013, "r": 0.012, "radius":0.35,
     "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
     "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam",
+    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 256,
     "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"},
 
     {"name": "init_02", "ic_x": -0.4, "ic_y": -0.4,
     "D": 0.013, "r": 0.012, "radius": 0.35,
     "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
     "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam",
+    "epochs": 120000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 256,
     "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"},    
 ]
 
@@ -192,11 +198,11 @@ for exp in EXPERIMENTS:
         "train": {
             "epochs": exp["epochs"],
             "lr": exp["lr"],
-            "batch_size": 256, 
             "optimizer": exp["optimizer"],
             "alpha": exp["alpha"],
             "beta": exp["beta"],
-            "gamma": exp["gamma"]
+            "gamma": exp["gamma"],  
+            "batch_size": exp["batch_size"]
         },
         "sampling": {
             "n_ic": exp["n_ic"],

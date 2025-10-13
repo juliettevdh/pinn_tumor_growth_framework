@@ -4,82 +4,19 @@ import nibabel as nib
 from scipy.stats import qmc
 import tensorflow as tf
 import matplotlib.pyplot as plt
-from scipy.interpolate import RegularGridInterpolator
-
-
-def fdm_fisher_kpp_2d(diff_slice, phi_slice, config, D_phys=0.013, rho_phys=0.012, 
-                      Nx=180, Ny=150, Nt=1000, t_max=200):
-    """
-    FDM solver for 2D Fisher-KPP equation on a normalized domain [-1,1]x[-1,1].
-    
-    Parameters
-    ----------
-    diff_slice : 2D array
-        Spatial mask for diffusion
-    phi_slice : 2D array
-        Spatial mask for growth
-    config : dict
-        Configuration dictionary containing initial condition center
-    D_phys : float
-        Diffusion coefficient in mm^2/day
-    rho_phys : float
-        Proliferation rate in 1/day
-    Nx, Ny : int
-        Number of grid points in x and y
-    Nt : int
-        Number of time steps
-    t_max : float
-        Maximum time in domain time units (days)
-    """
-    
-    # Physical domain size
-    Lx = 180.0  # mm
-    Ly = 150.0  # mm
-    
-    # Convert physical D to normalized domain
-    D_norm = D_phys * 0.5 * ((2./Lx)**2 + (2./Ly)**2)
-    
-    # Keep rho in days
-    rho_norm = rho_phys
-    
-    # Create normalized spatial grid
-    x = np.linspace(-1, 1, Nx)
-    y = np.linspace(-1, 1, Ny)
-    dx = x[1] - x[0]
-    dy = y[1] - y[0]
-    
-    # Time grid
-    t = np.linspace(0, t_max, Nt)
-    dt = t[1] - t[0]
-    
-    # Initialize solution
-    u = np.zeros((Nx, Ny, Nt))
-    X, Y = np.meshgrid(x, y, indexing='ij')
-    
-    # Initial condition: Gaussian centered at config["sampling"]["ic_center"]
-    ic_x, ic_y = config["sampling"]["ic_center"][0], config["sampling"]["ic_center"][1]
-    u[:, :, 0] = 0.5*np.exp(-2*((X - ic_x)**2 + (Y - ic_y)**2) / 0.1**2)
-    
-    # FDM time stepping
-    for k in range(Nt - 1):
-        u[1:-1, 1:-1, k+1] = (
-            u[1:-1, 1:-1, k]
-            + D_norm * dt / dx**2 * (u[2:, 1:-1, k] - 2 * u[1:-1, 1:-1, k] + u[:-2, 1:-1, k]) * diff_slice[1:-1, 1:-1]
-            + D_norm * dt / dy**2 * (u[1:-1, 2:, k] - 2 * u[1:-1, 1:-1, k] + u[1:-1, :-2, k]) * diff_slice[1:-1, 1:-1]
-            + rho_norm * dt * u[1:-1, 1:-1, k] * (1 - u[1:-1, 1:-1, k])
-        ) * phi_slice[1:-1, 1:-1]
-    
-    return x, y, t, u
 
 def load_mat(file_path):
+
     data = scipy.io.loadmat(file_path)['phi']
+
     return data[30:210, 10:200, 6:250]
 
 def load_nifti(file_path):
+
     data = nib.load(file_path).get_fdata()
     data = np.flip(np.transpose(data, axes=[1, 0, 2]), 1)
-    return data[30:210, 10:200, 6:250]
 
+    return data[30:210, 10:200, 6:250]
 
 def sample_collocation_points_in_domain(n_points, x_min=-1, x_max=1, y_min=-1, y_max=1, t_min=0, t_max=200):
     
@@ -88,10 +25,11 @@ def sample_collocation_points_in_domain(n_points, x_min=-1, x_max=1, y_min=-1, y
     x = x_min + (x_max - x_min) * points[:, 0]
     y = y_min + (y_max - y_min) * points[:, 1]
     t = t_min + (t_max - t_min) * points[:, 2]
+
     return np.column_stack((x, y, t))
 
 def sample_collocation_points(n_points, x0, y0, rad, x_min=-1, x_max=1, y_min=-1, y_max=1, t_min=0, t_max=200):
-    tf.random.set_seed(42)
+
     data = np.zeros((n_points, 3))
     radius = rad 
     theta = np.random.uniform(0, 2 * np.pi, n_points)
@@ -106,6 +44,7 @@ def sample_collocation_points(n_points, x0, y0, rad, x_min=-1, x_max=1, y_min=-1
     return data
 
 def sample_anchors_outside_brain(n_points, phi_slice):
+
     anchors = []
     Ny, Nx = phi_slice.shape
     for _ in range(n_points):
@@ -121,7 +60,8 @@ def sample_anchors_outside_brain(n_points, phi_slice):
 
     return np.array(anchors)
 
-def sample_initial_condition_points(pff_slice,n_points, x0, y0, rad,  x_min=-1, x_max=1, y_min=-1, y_max=1, t_min=0, t_max=200):
+def sample_initial_condition_points(pff_slice,n_points, x0, y0, rad):
+    
     n_ic = 1
     n_data_per_ic = n_points
     data = np.zeros([n_ic, n_data_per_ic, 4])
@@ -137,10 +77,10 @@ def sample_initial_condition_points(pff_slice,n_points, x0, y0, rad,  x_min=-1, 
     data[0, :, 3] = 0.5*np.exp(-2*((x_circ - x0)**2 + (y_circ - y0)**2) / 0.1**2)
     data[0, :, 3] *= pff_slice[int((x0 + 1) / 2 * (pff_slice.shape[0] - 1)), int((y0 + 1) / 2 * (pff_slice.shape[1] - 1))]
 
-
     return data.reshape(n_data_per_ic * n_ic, 4)
 
-def sample_initial_condition_points_in_domain(pff_slice,n_points, x0, y0, rad,  x_min=-1, x_max=1, y_min=-1, y_max=1, t_min=0, t_max=200):
+def sample_initial_condition_points_in_domain(pff_slice,n_points, x0, y0, x_min=-1, x_max=1, y_min=-1, y_max=1, t_min=0, t_max=200):
+    
     n_ic = 1
     n_data_per_ic = n_points
     data = np.zeros([n_ic, n_data_per_ic, 4])
@@ -157,17 +97,20 @@ def sample_initial_condition_points_in_domain(pff_slice,n_points, x0, y0, rad,  
 
 
 def prepare_data(config, save_dir):
+
+    # --- Load data ---
     pff = load_mat(config["phi_slice_path"]) 
     pff_slice = pff[:, :, config["phi_slice_z"]]
     image = load_nifti("../data/P1/t1_masked_syn.nii")
     image = image[:, :, config["phi_slice_z"]]
 
+    # --- Sample points ---
     if config["sampling"]["n_outside"] is not None:
         anchors_out = sample_anchors_outside_brain(config["sampling"]["n_outside"], pff_slice)
         anchors_out = np.hstack([anchors_out, np.zeros((anchors_out.shape[0], 1))])
 
     if config["sampling"]["strategy"] == "centered":
-        print("centered")
+
         ic_data = sample_initial_condition_points(
             pff_slice,
             config["sampling"]["n_ic"],
@@ -190,9 +133,8 @@ def prepare_data(config, save_dir):
             pff_slice,
             config["sampling"]["n_ic"],
             config["sampling"]["ic_center"][0],
-            config["sampling"]["ic_center"][1],
-            config["sampling"]["ic_radius"]
-        )
+            config["sampling"]["ic_center"][1]        
+            )
 
     # --- Time normalization ---
     t_max = 200.0  

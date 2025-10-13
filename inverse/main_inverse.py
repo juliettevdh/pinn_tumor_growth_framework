@@ -1,45 +1,44 @@
 import os
-from train_batch import train_pinn
-from data_utils import prepare_data
+from train_inverse_batch import train_pinn
+from data_utils_inverse import prepare_data
 from visualisation import visualize_solution_evolution
 from model import DNN_builder
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import time
-import numpy as np  
+import numpy as np
 
 def run_experiment(config):
-
-    # Create unique folder for experiment
+    # --- Create unique folder for experiment ---
     exp_id = f"{config['experiment_name']}"
-    save_dir = os.path.join("results/experiments_biostec_batch_200", exp_id)
+    save_dir = os.path.join("results/experiments_inverse_good", exp_id)
     os.makedirs(save_dir, exist_ok=True)
 
-    # Save config
+    # --- Save config ---
     with open(os.path.join(save_dir, "config.txt"), "w") as f:
         for key, value in config.items():
             f.write(f"{key}: {value}\n")
 
-    # Prepare data
+    # --- Prepare data ---
     data = prepare_data(config, save_dir)
 
-    # Build model
+    # --- Build model ---
     tf.keras.backend.clear_session()
     model = DNN_builder(**config['model'])
 
-    # Train
+    # --- Train ---
     start_time = time.time()
     loss_history, phi_slice, diff_slice = train_pinn(model, data, config, save_dir)
     end_time = time.time()
     
-    #write to config file
+    # --- Write to config file ---
     with open(os.path.join(save_dir, "config.txt"), "a") as f:
         f.write(f"Training time: {end_time - start_time:.2f} seconds\n")
         f.write(f"Final loss: {loss_history[-1] if len(loss_history) > 0 else -1}\n")
-        
-    #plot loss
+
+    # --- Plot loss history ---
     plt.rcParams.update({'font.size': 9})
-    plt.style.use('seaborn-v0_8-darkgrid')  # modern style with grid
+    plt.style.use('seaborn-v0_8-darkgrid') 
     fig, ax = plt.subplots(figsize=(10, 5))
     epochs = np.arange(1, len(loss_history) + 1)
     ax.semilogy(epochs, loss_history, label='Loss', color='#1f77b4', linewidth=1.4, alpha=0.9)
@@ -60,7 +59,7 @@ def run_experiment(config):
     plt.close(fig)
     plt.rcParams.update(plt.rcParamsDefault)
 
-    # Visualization
+    # --- Visualization ---
     visualize_solution_evolution(
         model, diff_slice, phi_slice, save_dir, config,
         t_snap=config.get('visualization', {}).get('t_snap', None),
@@ -68,6 +67,6 @@ def run_experiment(config):
         L=config.get('visualization', {}).get('L', 1.0)
     )
 
-    print(f"Experiment {exp_id} done. Outputs saved in {save_dir}")
+    print(f"✅ Experiment {exp_id} done. Outputs saved in {save_dir}")
 
     return loss_history

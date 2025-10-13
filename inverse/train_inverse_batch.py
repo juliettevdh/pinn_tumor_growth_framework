@@ -22,7 +22,7 @@ def train_pinn(model, data, config, save_dir):
     wm = load_nifti(config["wm_path"])
     csf = load_nifti(config["csf_path"])
 
-    # Diffusion map
+    # --- Diffusion map ---
     tissue = wm + gm
     pWM = (tissue > csf) * wm
     pGM = (tissue > csf) * gm
@@ -88,8 +88,8 @@ def train_pinn(model, data, config, save_dir):
         grads = tape.gradient(loss, model.trainable_weights + [D,r])
         opt.apply_gradients(zip(grads, model.trainable_weights + [D,r]))
         return loss, l_data, L_phys, grads, D, r
-    
-    # Optimization
+
+    # --- Optimization ---
     if config["train"]["optimizer"] == "Adam":
         opt = tf.keras.optimizers.Adam(learning_rate=config["train"]["lr"])
     elif config["train"]["optimizer"] == "SGD":
@@ -150,7 +150,7 @@ def train_pinn(model, data, config, save_dir):
             grad_list_norm.append(grad_norm)
             print("loss data:", l_data.numpy(), "L_phys:", L_phys.numpy())
 
-    #save
+    # --- Save model and training history ---
     model.save(os.path.join(save_dir, "model.h5"))
     np.savetxt(os.path.join(save_dir, "loss_history.txt"), np.array(loss_history))
     np.savetxt(os.path.join(save_dir, "D_history.txt"), np.array(D_list))
@@ -159,14 +159,13 @@ def train_pinn(model, data, config, save_dir):
     np.savetxt(os.path.join(save_dir, "loss_data_history.txt"), np.array(loss_data))
     np.savetxt(os.path.join(save_dir, "loss_pde_history.txt"), np.array(loss_pde))
 
-
-    ### Plots ###
+    # --- Plots ---
     epochs_D = np.arange(len(D_list))
     epochs_r = np.arange(len(r_list))
 
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8))
 
-    #D plot
+    # --- Coefficient of diffusion D plot ---
     ax1.plot(epochs_D, D_list, label=r'$D_w$', color='#1f77b4', linewidth=1.8)
     ax1.axhline(y=0.013, color='#1f77b4', linestyle='--', label=r'True $D_w$', linewidth=2.2)
     ax1.set_yscale('log')
@@ -174,13 +173,12 @@ def train_pinn(model, data, config, save_dir):
     ax1.set_title(r'Diffusion Coefficient $D_w$ over Training', fontsize=13)
     ax1.grid(which='major', linestyle='-', alpha=0.6)
     ax1.grid(which='minor', linestyle=':', alpha=0.4)
-    # More ticks: majors at every power, minors subdividing
     ax1.yaxis.set_major_locator(LogLocator(base=10.0, numticks=12))
     ax1.yaxis.set_minor_locator(LogLocator(base=10.0, subs=np.arange(2, 10)*0.1, numticks=100))
     ax1.yaxis.set_major_formatter(LogFormatterSciNotation())
     ax1.legend(fontsize=13, frameon=True)
 
-    # r plot
+    # --- Proliferation rate r plot ---
     ax2.plot(epochs_r, r_list, label=r'$\rho$', color="#bc7bc4", linewidth=1.8)
     ax2.axhline(y=0.012, color="#bc7bc4", linestyle='--', label=r'True $\rho$', linewidth=2.2)
     ax2.set_yscale('log')
@@ -199,8 +197,7 @@ def train_pinn(model, data, config, save_dir):
     fig.savefig(os.path.join(save_dir, "D_r_history_bis.svg"), dpi=300)
     plt.close(fig)
 
-
-    #plot loss history but separated, loss for data and loss for physics
+    # --- Plot loss history but separated, loss for data and loss for physics ---
     plt.rcParams.update({'font.size': 9})
     fig, ax = plt.subplots(figsize=(10, 5))
     ax.semilogy(np.arange(len(loss_data)), loss_data, label='Loss data', color="#237764", linewidth=1.4)
@@ -217,6 +214,5 @@ def train_pinn(model, data, config, save_dir):
     fig.savefig(os.path.join(save_dir, 'loss_history_separated.svg'), dpi=300)
     plt.close(fig)
     plt.rcParams.update(plt.rcParamsDefault)
-
 
     return loss_history, pff_slice, diff_slice

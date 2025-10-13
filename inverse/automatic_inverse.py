@@ -1,21 +1,18 @@
-import csv
-import os
+# This script runs a series of experiments for the inverse problem
+# using different hyperparameters and configurations. Each experiment's
+# settings are defined in the EXPERIMENTS list, and the run_experiment
+# function is called with the corresponding configuration.
+
 from main_inverse import run_experiment
-
-print("Using GPU:", os.environ["CUDA_VISIBLE_DEVICES"])
-
-import tensorflow as tf
-
 
 EXPERIMENTS = [
     # === ARCHITECTURE ===
-     {"name": "inverse_unknown_D_r_test", "ic_x": 0.4, "ic_y": 0.4,
+     {"name": "inverse_unknown_D_r", "ic_x": 0.4, "ic_y": 0.4,
     "D": 0.013, "r": 0.012, "radius": 0.35,
      "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
      "neurons": 32, "n_hidden_layers": 5, "actfn": "swish",
-     "epochs": 50000, "lr": 1e-3, "optimizer": "Adam",
+     "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
      "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
-     
 ]
 
 for exp in EXPERIMENTS:
@@ -36,7 +33,7 @@ for exp in EXPERIMENTS:
             "alpha": exp["alpha"],
             "beta": exp["beta"],
             "gamma": exp["gamma"],
-            "batch_size": 512
+            "batch_size": exp["batch_size"]
         },
         "sampling": {
             "n_ic": exp["n_ic"],
