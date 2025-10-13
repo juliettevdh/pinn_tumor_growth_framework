@@ -1,44 +1,44 @@
-# 🧠 Tumor Growth Simulation with PINN Project
+# Tumor Growth Simulation with PINN Project
 
 Python project for **forward** and **inverse** modeling of tumor growth using Physics-Informed Neural Networks (PINNs).  
-This repository contains the processing, training, and visualization scripts, along with the corresponding experimental data files.
+This repository contains the processing, training, and visualization scripts along with the requirements needed to run the project.
 
 ---
 
 ## 📚 Table of Contents
-- [📁 Project Structure](#-project-structure)
-- [⚙️ Installation](#️-installation)
-- [🚀 Usage](#-usage)
+- [Project Structure](#-project-structure)
+- [Installation](#️-installation)
+- [Usage](#-usage)
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
-The repository is organized into several main directories, separating forward modeling, inverse modeling, data, and results.
+The repository is organized into several main directories, separating forward modeling and inverse modeling.
 ```
 .
-├── codes_forward/ # Forward modeling and simulation scripts
-│ ├── automatic.py # Automates forward simulations
-│ ├── data_utils.py # Data loading and preprocessing functions
-│ ├── main.py # Main entry point for the forward model
-│ ├── model.py # Defines the forward PINN architecture
-│ ├── train.py # Model training script
-│ ├── train_batch.py # Batch training version 
+├── codes_forward/     # Forward modeling and simulation scripts
+│ ├── automatic.py     # Automates forward simulations and creates several experiments
+│ ├── data_utils.py    # Data loading and preprocessing functions for forward modeling
+│ ├── main.py          # Workflow of the configuration, training then visualization
+│ ├── model.py         # Defines the forward PINN architecture
+│ ├── train.py         # Model training script
+│ ├── train_batch.py   # Batch training version 
 │ ├── visualisation.py # Plotting and visualization utilities
-│ └── pycache/ # Compiled Python cache files
+│ └── pycache/         # Compiled Python cache files
 │
-├── codes_inverse/ # Inverse problem scripts (parameter estimation)
-│ ├── automatic_inverse.py # Automates inverse simulations
-│ ├── data_utils_inverse.py# Data utilities for inverse modeling
-│ ├── main_inverse.py # Main entry point for the inverse model
-│ ├── model.py # Defines the inverse PINN architecture
-│ ├── train_inverse_batch.py # Training for inverse estimation
-│ ├── visualisation.py # Visualization tools for inverse results
-│ └── pycache/ # Compiled Python cache files
+├── codes_inverse/           # Inverse problem scripts (parameter estimation)
+│ ├── automatic_inverse.py   # Automates inverse simulations
+│ ├── data_utils_inverse.py  # Data loading and preprocessing functions for inverse modeling
+│ ├── main_inverse.py        # Workflow of the configuration, training then visualization
+│ ├── model.py               # Defines the inverse PINN architecture
+│ ├── train_inverse_batch.py # Model training script for parameter and solution estimation
+│ ├── visualisation.py       # Plotting and visualization utilities
+│ └── pycache/               # Compiled Python cache files
 
 ```
 
-## ⚙️ Installation
+## Installation
 A virtual environment with the following requirements should be created: 
 ```
 absl-py==2.3.1
@@ -126,6 +126,6 @@ wrapt==1.17.3
 zipp==3.23.0
 ```
 
-## 🚀 Usage
+## Usage
 
 To launch experiments, please run the automatic.py and automatic_inverse.py files. Details about experiments can be changed. 
