@@ -29,14 +29,11 @@ def fdm_fisher_kpp_2d(diff_slice, phi_slice, D_phys=0.013, rho_phys=0.012,
     """
     
     # --- Physical domain size ---
-    Lx = 180.0  # mm
-    Ly = 150.0  # mm
-    
+    Lx = diff_slice.shape[0]  # mm
+    Ly = diff_slice.shape[1]  # mm
+
     # --- Convert physical D to normalized domain ---
     D_norm = D_phys * 0.5 * ((2./Lx)**2 + (2./Ly)**2)
-    D_norm_bis = D_phys / (( (Lx/2)**2 + (Ly/2)**2 ) / 2)
-    print("D_norm", D_norm)
-    print("D_norm_bis", D_norm_bis)
 
     # --- Keep rho in days ---
     rho_norm = rho_phys
@@ -70,16 +67,16 @@ def fdm_fisher_kpp_2d(diff_slice, phi_slice, D_phys=0.013, rho_phys=0.012,
     
     return x, y, t, u
 
-def visualize_solution_evolution(model, diff_slice, phi_slice, save_dir, gif_name="comparison.gif",
+def visualize_solution_evolution(model, diff_slice, phi_slice, save_dir, config, gif_name="comparison.gif",
                                  t_snap=None, value_threshold=0.005, L=1.0):
 
     if t_snap is None:
         t_snap = [0, 25, 50, 75, 100, 125, 150, 175, 200]
 
-    D = 0.013
-    r = 0.012
+    D = config["physics"]["D"]
+    r = config["physics"]["r"]
 
-    Ny, Nx = 150, 180
+    Ny, Nx = diff_slice.shape[1], diff_slice.shape[0]
     x = np.linspace(-L, L, Nx)
     y = np.linspace(-L, L, Ny)
     X, Y = np.meshgrid(x, y, indexing='ij')
@@ -144,7 +141,7 @@ def visualize_solution_evolution(model, diff_slice, phi_slice, save_dir, gif_nam
         fig.colorbar(pcm1, ax=ax[1])
         fig.colorbar(pcm2, ax=ax[2])
         fig.colorbar(pcm3, ax=ax[3])
-        plt.suptitle(r"Comparison | $D_w=0.013 \ [mm²/day]$ | $\rho=0.012 \ [1/day]$", fontsize=13)
+        plt.suptitle(fr"Comparison | $D_w={D} \ [mm²/day]$ | $\rho={r} \ [1/day]$", fontsize=13)
         filename = f"{save_dir}/comparison_{i:03d}_inverse.png"
         filenames.append(filename)
         plt.savefig(filename, dpi=500)

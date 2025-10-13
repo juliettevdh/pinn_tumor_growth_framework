@@ -43,7 +43,7 @@ def sample_collocation_points(n_points, x0, y0, rad, x_min=-1, x_max=1, y_min=-1
 
     return data
 
-def sample_anchors_outside_brain(n_points, phi_slice):
+def sample_anchors_outside_brain(n_points, phi_slice, t_max = 200):
 
     anchors = []
     Ny, Nx = phi_slice.shape
@@ -51,7 +51,7 @@ def sample_anchors_outside_brain(n_points, phi_slice):
         while True:
             x = np.random.uniform(-1, 1)
             y = np.random.uniform(-1, 1)
-            t = np.random.uniform(0, 200)
+            t = np.random.uniform(0, t_max)
             ix = int((x + 1) / 2 * (Nx - 1))
             iy = int((y + 1) / 2 * (Ny - 1))
             if phi_slice[iy, ix] < 0.01 or  0.01 < phi_slice[iy, ix] < 0.05:

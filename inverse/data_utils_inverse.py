@@ -32,12 +32,11 @@ def fdm_fisher_kpp_2d(diff_slice, phi_slice, config, D_phys=0.013, rho_phys=0.01
     """
 
     # --- Physical domain size ---
-    Lx = 180.0  # mm
-    Ly = 150.0  # mm
+    Lx = diff_slice.shape[0]  # mm
+    Ly = diff_slice.shape[1]  # mm
 
     # --- Convert physical D to normalized domain ---
     D_norm = D_phys * 0.5 * ((2./Lx)**2 + (2./Ly)**2)
-    print("D_norm", D_norm)
 
     # --- Keep rho in days ---
     rho_norm = rho_phys
@@ -99,7 +98,7 @@ def sample_data_points(n_points, phi_slice, diff_slice, x0, y0, radius, config, 
 
 def sample_data_points_in_domain(n_points, phi_slice, diff_slice, config,
                                    x_min=-1, x_max=1, y_min=-1, y_max=1, t_min=0, t_max=200):
-    tf.random.set_seed(42)
+
     x, y, t, u = fdm_fisher_kpp_2d(diff_slice, phi_slice, config)  
     x_random = np.random.uniform(x_min, x_max, n_points)
     y_random = np.random.uniform(y_min, y_max, n_points)
