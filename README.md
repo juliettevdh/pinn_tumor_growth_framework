@@ -5,7 +5,7 @@ This repository contains the processing, training, and visualization scripts alo
 
 ---
 
-## 📚 Table of Contents
+## Table of Contents
 - [Project Structure](#-project-structure)
 - [Installation](#️-installation)
 - [Usage](#-usage)
