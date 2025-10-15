@@ -64,7 +64,6 @@ def run_experiment(config):
     visualize_solution_evolution(
         model, diff_slice, phi_slice, save_dir, config,
         t_snap=config.get('visualization', {}).get('t_snap', None),
-        value_threshold=config.get('visualization', {}).get('value_threshold', 0.05),
         L=config.get('visualization', {}).get('L', 1.0)
     )
 

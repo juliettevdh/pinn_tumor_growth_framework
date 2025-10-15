@@ -39,8 +39,8 @@ def fdm_fisher_kpp_2d(diff_slice, phi_slice, D_phys=0.013, rho_phys=0.012,
     rho_norm = rho_phys
     
     # --- Create normalized spatial grid ---
-    x = np.linspace(-1, 1, Nx)
-    y = np.linspace(-1, 1, Ny)
+    x = np.linspace(-1, 1, Lx)
+    y = np.linspace(-1, 1, Ly)
     dx = x[1] - x[0]
     dy = y[1] - y[0]
     
@@ -49,7 +49,7 @@ def fdm_fisher_kpp_2d(diff_slice, phi_slice, D_phys=0.013, rho_phys=0.012,
     dt = t[1] - t[0]
     
     # --- Initialize solution ---
-    u = np.zeros((Nx, Ny, Nt))
+    u = np.zeros((Lx, Ly, Nt))
     X, Y = np.meshgrid(x, y, indexing='ij')
     
     # --- Initial condition: Gaussian centered at config["sampling"]["ic_center"] ---
