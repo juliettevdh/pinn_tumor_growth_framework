@@ -11,7 +11,7 @@ import numpy as np
 def run_experiment(config):
     # --- Create unique folder for experiment ---
     exp_id = f"{config['experiment_name']}"
-    save_dir = os.path.join("results/experiments_inverse_good", exp_id)
+    save_dir = os.path.join("results/inverse_hyperparameters", exp_id)
     os.makedirs(save_dir, exist_ok=True)
 
     # --- Save config ---
