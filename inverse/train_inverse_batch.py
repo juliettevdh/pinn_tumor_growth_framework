@@ -166,7 +166,7 @@ def train_pinn(model, data, config, save_dir):
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8))
 
     # --- Coefficient of diffusion D plot ---
-    ax1.plot(epochs_D, D_list, label=r'$D_w$', color='#1f77b4', linewidth=1.8)
+    ax1.plot(epochs_D, D_val_phys, label=r'$D_w$', color='#1f77b4', linewidth=1.8)
     ax1.axhline(y=0.013, color='#1f77b4', linestyle='--', label=r'True $D_w$', linewidth=2.2)
     ax1.set_yscale('log')
     ax1.set_ylabel(r'$D_w$ value [mm²/day]', fontsize=13)
