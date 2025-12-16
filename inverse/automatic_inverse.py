@@ -19,178 +19,171 @@ EXPERIMENTS = [
 
     #=== ARCHITECTURE ===
 
-    # {"name": "arch_02_test", "ic_x": 0.4, "ic_y": 0.4,
+    {"name": "arch_02", "ic_x": 0.4, "ic_y": 0.4,
+    "D": 0.013, "r": 0.012, "radius": 0.35,
+    "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
+    "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
+    "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
+    "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"},
+
+    # {"name": "arch_01", "ic_x": 0.4, "ic_y": 0.4,
     # "D": 0.013, "r": 0.012, "radius": 0.35,
+    # "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
+    # "neurons": 32, "n_hidden_layers": 3, "actfn": "tanh",
+    # "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
+    # "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
+
+    # {"name": "arch_03", "ic_x": 0.4, "ic_y": 0.4,
+    # "D": 0.013, "r": 0.012, "radius": 0.35,
+    # "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
+    # "neurons": 64, "n_hidden_layers": 3, "actfn": "tanh",
+    # "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
+    # "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
+
+    # {"name": "arch_04", "ic_x": 0.4, "ic_y": 0.4,
+    # "D": 0.013, "r": 0.012, "radius": 0.35,
+    # "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
+    # "neurons": 64, "n_hidden_layers": 5, "actfn": "tanh",
+    # "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
+    # "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
+     
+    # {"name": "arch_05", "ic_x": 0.4, "ic_y": 0.4,
+    # "D": 0.013, "r": 0.012, "radius": 0.35,
+    # "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
+    # "neurons": 128, "n_hidden_layers": 3, "actfn": "tanh",
+    # "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
+    # "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
+
+    # {"name": "arch_06", "ic_x": 0.4, "ic_y": 0.4,
+    # "D": 0.013, "r": 0.012, "radius": 0.35,
+    # "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
+    # "neurons": 128, "n_hidden_layers": 5, "actfn": "tanh",
+    # "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
+    # "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
+
+    # # === OPTIMIZER ===
+
+    # {"name": "opt_02", "ic_x": 0.4, "ic_y": 0.4,
+    # "D": 0.013, "r": 0.012, "radius": 0.35,
+    # "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
+    # "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
+    # "epochs": 500000, "lr": 1e-3, "optimizer": "SGD", "batch_size": 512,
+    # "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
+
+    # {"name": "opt_03", "ic_x": 0.4, "ic_y": 0.4,
+    # "D": 0.013, "r": 0.012, "radius": 0.35,
+    # "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
+    # "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
+    # "epochs": 500000, "lr": 1e-3, "optimizer": "RMSprop", "batch_size": 512,
+    # "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
+
+    # {"name": "opt_04", "ic_x": 0.4, "ic_y": 0.4,
+    # "D": 0.013, "r": 0.012, "radius": 0.35,
+    # "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
+    # "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
+    # "epochs": 500000, "lr": 1e-3, "optimizer": "AdamW", "batch_size": 512,
+    # "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
+
+    # # === LEARNING RATE ===
+
+    # {"name": "lr_01", "ic_x": 0.4, "ic_y": 0.4,
+    # "D": 0.013, "r": 0.012, "radius": 0.35,
+    # "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
+    # "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
+    # "epochs": 500000, "lr": 1e-2, "optimizer": "Adam", "batch_size": 512,
+    # "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
+
+    # {"name": "lr_02", "ic_x": 0.4, "ic_y": 0.4,
+    # "D": 0.013, "r": 0.012, "radius": 0.35,
+    # "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
+    # "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
+    # "epochs": 500000, "lr": 1e-4, "optimizer": "Adam", "batch_size": 512,
+    # "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
+
+    # # === LOSS WEIGHTS ===
+
+    # {"name": "loss_01", "ic_x": 0.4, "ic_y": 0.4,
+    # "D": 0.013, "r": 0.012, "radius": 0.35,
+    # "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
+    # "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
+    # "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
+    # "alpha": 0.1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
+
+    # {"name": "loss_02", "ic_x": 0.4, "ic_y": 0.4,
+    # "D": 0.013, "r": 0.012, "radius":0.35,
+    # "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
+    # "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
+    # "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
+    # "alpha": 1, "beta": 10, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
+
+    # {"name": "loss_03", "ic_x": 0.4, "ic_y": 0.4,
+    # "D": 0.013, "r": 0.012, "radius": 0.35,
+    # "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
+    # "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
+    # "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
+    # "alpha": 1, "beta": 1, "gamma": 10, "phi_slice_z": 166, "strategy": "distributed"},
+
+    # # === SAMPLING ===
+    # {"name": "sample_01", "ic_x": 0.4, "ic_y": 0.4,
+    # "D": 0.013, "r": 0.012, "radius": 0.35,
+    # "n_inside": 20000, "n_ic": 5000, "n_outside": 5000,
+    # "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
+    # "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
+    # "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"},
+    
+
+    # {"name": "sample_02", "ic_x": 0.4, "ic_y": 0.4,
+    # "D": 0.013, "r": 0.012, "radius": 0.35,
+    # "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
+    # "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
+    # "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 256,
+    # "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
+
+    # {"name": "sample_03", "ic_x": 0.4, "ic_y": 0.4,
+    # "D": 0.013, "r": 0.012, "radius":0.35,
+    # "n_inside": 5000, "n_ic": 5000, "n_outside": 5000,
+    # "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
+    # "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 256,
+    # "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"},
+
+    # # === ACTIVATION FUNCTION ===
+
+    # {"name": "actfn_01", "ic_x": 0.4, "ic_y": 0.4,
+    # "D": 0.013, "r": 0.012, "radius": 0.35,
+    # "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
+    # "neurons": 32, "n_hidden_layers": 5, "actfn": "relu",
+    # "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
+    # "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"}, 
+
+    # {"name": "actfn_02", "ic_x": 0.4, "ic_y": 0.4,
+    # "D": 0.013, "r": 0.012, "radius":0.35,
+    # "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
+    # "neurons": 32, "n_hidden_layers": 5, "actfn": "swish",
+    # "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
+    # "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"}, 
+
+    # {"name": "actfn_03", "ic_x": 0.4, "ic_y": 0.4,
+    # "D": 0.013, "r": 0.012, "radius": 0.35,
+    # "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
+    # "neurons": 32, "n_hidden_layers": 5, "actfn": "sigmoid",
+    # "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
+    # "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},   
+
+    #  # === OTHER INITIALIZATION ===
+
+    # {"name": "init_01", "ic_x": 0.0, "ic_y": -0.55,
+    # "D": 0.013, "r": 0.012, "radius":0.35,
     # "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
     # "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
     # "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
     # "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
 
-    {"name": "arch_01", "ic_x": 0.4, "ic_y": 0.4,
-    "D": 0.013, "r": 0.012, "radius": 0.35,
-    "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
-    "neurons": 32, "n_hidden_layers": 3, "actfn": "tanh",
-    "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
-    "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
-
-    {"name": "lr_02", "ic_x": 0.4, "ic_y": 0.4,
-    "D": 0.013, "r": 0.012, "radius": 0.35,
-    "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
-    "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 500000, "lr": 1e-4, "optimizer": "Adam", "batch_size": 512,
-    "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
-
-    {"name": "arch_03", "ic_x": 0.4, "ic_y": 0.4,
-    "D": 0.013, "r": 0.012, "radius": 0.35,
-    "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
-    "neurons": 64, "n_hidden_layers": 3, "actfn": "tanh",
-    "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
-    "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
-
-    {"name": "arch_04", "ic_x": 0.4, "ic_y": 0.4,
-    "D": 0.013, "r": 0.012, "radius": 0.35,
-    "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
-    "neurons": 64, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
-    "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
-     
-    {"name": "arch_05", "ic_x": 0.4, "ic_y": 0.4,
-    "D": 0.013, "r": 0.012, "radius": 0.35,
-    "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
-    "neurons": 128, "n_hidden_layers": 3, "actfn": "tanh",
-    "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
-    "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
-
-    {"name": "arch_06", "ic_x": 0.4, "ic_y": 0.4,
-    "D": 0.013, "r": 0.012, "radius": 0.35,
-    "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
-    "neurons": 128, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
-    "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
-
-    # === OPTIMIZER ===
-
-    {"name": "opt_02", "ic_x": 0.4, "ic_y": 0.4,
-    "D": 0.013, "r": 0.012, "radius": 0.35,
-    "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
-    "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 500000, "lr": 1e-3, "optimizer": "SGD", "batch_size": 512,
-    "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
-
-    {"name": "opt_03", "ic_x": 0.4, "ic_y": 0.4,
-    "D": 0.013, "r": 0.012, "radius": 0.35,
-    "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
-    "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 500000, "lr": 1e-3, "optimizer": "RMSprop", "batch_size": 512,
-    "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
-
-    {"name": "opt_04", "ic_x": 0.4, "ic_y": 0.4,
-    "D": 0.013, "r": 0.012, "radius": 0.35,
-    "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
-    "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 500000, "lr": 1e-3, "optimizer": "AdamW", "batch_size": 512,
-    "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
-
-    # === LEARNING RATE ===
-
-    {"name": "lr_01", "ic_x": 0.4, "ic_y": 0.4,
-    "D": 0.013, "r": 0.012, "radius": 0.35,
-    "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
-    "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 500000, "lr": 1e-2, "optimizer": "Adam", "batch_size": 512,
-    "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
-
-    {"name": "lr_02", "ic_x": 0.4, "ic_y": 0.4,
-    "D": 0.013, "r": 0.012, "radius": 0.35,
-    "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
-    "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 500000, "lr": 1e-4, "optimizer": "Adam", "batch_size": 512,
-    "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
-
-    # === LOSS WEIGHTS ===
-
-    {"name": "loss_01", "ic_x": 0.4, "ic_y": 0.4,
-    "D": 0.013, "r": 0.012, "radius": 0.35,
-    "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
-    "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
-    "alpha": 0.1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
-
-    {"name": "loss_02", "ic_x": 0.4, "ic_y": 0.4,
-    "D": 0.013, "r": 0.012, "radius":0.35,
-    "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
-    "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
-    "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
-
-    {"name": "loss_03", "ic_x": 0.4, "ic_y": 0.4,
-    "D": 0.013, "r": 0.012, "radius": 0.35,
-    "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
-    "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
-    "alpha": 1, "beta": 1, "gamma": 10, "phi_slice_z": 166, "strategy": "distributed"},
-
-    # === SAMPLING ===
-    {"name": "sample_01", "ic_x": 0.4, "ic_y": 0.4,
-    "D": 0.013, "r": 0.012, "radius": 0.35,
-    "n_inside": 20000, "n_ic": 5000, "n_outside": 5000,
-    "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
-    "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"},
-    
-
-    {"name": "sample_02", "ic_x": 0.4, "ic_y": 0.4,
-    "D": 0.013, "r": 0.012, "radius": 0.35,
-    "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
-    "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 256,
-    "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
-
-    {"name": "sample_03", "ic_x": 0.4, "ic_y": 0.4,
-    "D": 0.013, "r": 0.012, "radius":0.35,
-    "n_inside": 5000, "n_ic": 5000, "n_outside": 5000,
-    "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 256,
-    "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"},
-
-    # === ACTIVATION FUNCTION ===
-
-    {"name": "actfn_01", "ic_x": 0.4, "ic_y": 0.4,
-    "D": 0.013, "r": 0.012, "radius": 0.35,
-    "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
-    "neurons": 32, "n_hidden_layers": 5, "actfn": "relu",
-    "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
-    "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"}, 
-
-    {"name": "actfn_02", "ic_x": 0.4, "ic_y": 0.4,
-    "D": 0.013, "r": 0.012, "radius":0.35,
-    "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
-    "neurons": 32, "n_hidden_layers": 5, "actfn": "swish",
-    "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
-    "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"}, 
-
-    {"name": "actfn_03", "ic_x": 0.4, "ic_y": 0.4,
-    "D": 0.013, "r": 0.012, "radius": 0.35,
-    "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
-    "neurons": 32, "n_hidden_layers": 5, "actfn": "sigmoid",
-    "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
-    "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},   
-
-     # === OTHER INITIALIZATION ===
-
-    {"name": "init_01", "ic_x": 0.0, "ic_y": -0.55,
-    "D": 0.013, "r": 0.012, "radius":0.35,
-    "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
-    "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
-    "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
-
-    {"name": "init_02", "ic_x": -0.4, "ic_y": -0.4,
-    "D": 0.013, "r": 0.012, "radius": 0.35,
-    "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
-    "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
-    "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
-    "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},    
+    # {"name": "init_02", "ic_x": -0.4, "ic_y": -0.4,
+    # "D": 0.013, "r": 0.012, "radius": 0.35,
+    # "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
+    # "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
+    # "epochs": 500000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 512,
+    # "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},    
 ]
 
 for exp in EXPERIMENTS:

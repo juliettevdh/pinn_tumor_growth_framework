@@ -1,3 +1,9 @@
+### This script allows for the sampling of collocation points
+### and available data points (such as the initial condition or boundary points).
+### Two types of sampling method are used, either distributed across the domain,
+### either centered around tumor core.
+
+
 import numpy as np
 import scipy.io
 import nibabel as nib

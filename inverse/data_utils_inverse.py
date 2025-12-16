@@ -11,24 +11,6 @@ def fdm_fisher_kpp_2d(diff_slice, phi_slice, config, D_phys=0.013, rho_phys=0.01
     """
     FDM solver for 2D Fisher-KPP equation on a normalized domain [-1,1]x[-1,1].
     
-    Parameters
-    ----------
-    diff_slice : 2D array
-        Spatial mask for diffusion
-    phi_slice : 2D array
-        Spatial mask for growth
-    config : dict
-        Configuration dictionary containing initial condition center
-    D_phys : float
-        Diffusion coefficient in mm^2/day
-    rho_phys : float
-        Proliferation rate in 1/day
-    Nx, Ny : int
-        Number of grid points in x and y
-    Nt : int
-        Number of time steps
-    t_max : float
-        Maximum time in domain time units (days or years)
     """
 
     # --- Physical domain size ---
@@ -86,8 +68,13 @@ def sample_data_points(n_points, phi_slice, diff_slice, x0, y0, radius, config, 
     r = radius * np.sqrt(np.random.uniform(0, 1, n_points))
     x_circ = x0 + r * np.cos(theta)
     y_circ = y0 + r * np.sin(theta)
-    t_circ = np.linspace(t_min, t_max, n_points)
-
+    #t_circ = np.linspace(t_min, t_max, n_points)
+    fraction = 1
+    times = [0,50,100,150,200]
+    t_circ = np.random.choice(times, n_points*int(fraction))
+    t_circ_rest = np.random.uniform(t_min, t_max, n_points - int(n_points * fraction))
+    #print("t_circ_rest:", t_circ_rest)
+    t_circ = np.concatenate((t_circ, t_circ_rest))
     data = np.vstack((x_circ, y_circ, t_circ)).T 
 
     interpolator = RegularGridInterpolator((x, y, t), u, bounds_error=False, fill_value=None)
@@ -102,8 +89,14 @@ def sample_data_points_in_domain(n_points, phi_slice, diff_slice, config,
     x, y, t, u = fdm_fisher_kpp_2d(diff_slice, phi_slice, config)  
     x_random = np.random.uniform(x_min, x_max, n_points)
     y_random = np.random.uniform(y_min, y_max, n_points)
-    t_random = np.random.uniform(t_min, t_max, n_points)
+    #t_random = np.random.uniform(t_min, t_max, n_points)
+    fraction = 1.0
+    times = [0,50,100,150,200]
+    t_times = np.random.choice(times, int(n_points * fraction))
+    t_random_rest = np.random.uniform(t_min, t_max, n_points - int(n_points * fraction))
+    t_random = np.concatenate((t_times, t_random_rest))
     data = np.vstack((x_random, y_random, t_random)).T  
+
 
     interpolator = RegularGridInterpolator((x, y, t), u, bounds_error=False, fill_value=None)
     u_sampled = interpolator(data)
@@ -186,9 +179,11 @@ def prepare_data(config, save_dir):
     # --- Normalize time to [0,1] ---
     t_max = 200.0
     x_data, y_data, t_data, u_data = [np.expand_dims(data_points[:, i], axis=1) for i in range(4)]
+    print("t_data unique",np.unique(t_data))
     t_data = t_data/t_max
     x_c, y_c, t_c = [np.expand_dims(collocation_data[:, i], axis=1) for i in range(3)]
     t_c = t_c/t_max
+    
 
     fig, ax = plt.subplots(figsize=(9, 7))
     ax.set_title("Data points distribution", fontsize=9)

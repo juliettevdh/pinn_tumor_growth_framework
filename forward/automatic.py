@@ -227,4 +227,3 @@ for exp in EXPERIMENTS:
     }
 
     loss_history = run_experiment(config)
-    final_loss = loss_history[-1] if len(loss_history) > 0 else -1

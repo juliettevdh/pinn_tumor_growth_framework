@@ -7,25 +7,7 @@ def fdm_fisher_kpp_2d(diff_slice, phi_slice, D_phys=0.013, rho_phys=0.012,
                       Nx=180, Ny=150, Nt=1000, t_max=200):
     """
     FDM solver for 2D Fisher-KPP equation on a normalized domain [-1,1]x[-1,1].
-    
-    Parameters
-    ----------
-    diff_slice : 2D array
-        Spatial mask for diffusion
-    phi_slice : 2D array
-        Spatial mask for growth
-    config : dict
-        Configuration dictionary containing initial condition center
-    D_phys : float
-        Diffusion coefficient in mm^2/day
-    rho_phys : float
-        Proliferation rate in 1/day
-    Nx, Ny : int
-        Number of grid points in x and y
-    Nt : int
-        Number of time steps
-    t_max : float
-        Maximum time in domain time units (days or years)
+
     """
     
     # --- Physical domain size ---
@@ -154,4 +136,4 @@ def visualize_solution_evolution(model, diff_slice, phi_slice, save_dir, config,
             image = imageio.imread(filename)
             writer.append_data(image)
 
-    print(f"✅ Comparison GIF saved: {save_dir}/{gif_name}")
+    print(f"Comparison GIF saved: {save_dir}/{gif_name}")

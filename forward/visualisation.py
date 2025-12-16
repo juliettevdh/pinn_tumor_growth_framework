@@ -1,3 +1,7 @@
+### This script allows for the visualisation of the solution and 
+### the computation of relative and absolute errors.
+
+
 import os
 import numpy as np
 import matplotlib.pyplot as plt
@@ -8,24 +12,6 @@ def fdm_fisher_kpp_2d(diff_slice, phi_slice, D_phys=0.013, rho_phys=0.012,
     """
     FDM solver for 2D Fisher-KPP equation on a normalized domain [-1,1]x[-1,1].
     
-    Parameters
-    ----------
-    diff_slice : 2D array
-        Spatial mask for diffusion
-    phi_slice : 2D array
-        Spatial mask for growth
-    config : dict
-        Configuration dictionary containing initial condition center
-    D_phys : float
-        Diffusion coefficient in mm^2/day
-    rho_phys : float
-        Proliferation rate in 1/day
-    Nx, Ny : int
-        Number of grid points in x and y
-    Nt : int
-        Number of time steps
-    t_max : float
-        Maximum time in domain time units (days or years)
     """
     
     # --- Physical domain size ---

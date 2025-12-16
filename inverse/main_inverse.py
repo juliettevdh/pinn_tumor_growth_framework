@@ -8,9 +8,6 @@ import matplotlib.pyplot as plt
 import time
 import numpy as np
 
-import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-
 def run_experiment(config):
     # --- Create unique folder for experiment ---
     exp_id = f"{config['experiment_name']}"
@@ -70,6 +67,6 @@ def run_experiment(config):
         L=config.get('visualization', {}).get('L', 1.0)
     )
 
-    print(f"✅ Experiment {exp_id} done. Outputs saved in {save_dir}")
+    print(f"Experiment is done. Outputs saved in {save_dir}")
 
     return loss_history

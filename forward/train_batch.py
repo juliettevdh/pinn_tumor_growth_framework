@@ -1,3 +1,6 @@
+### This script implements the training of the PINN model using 
+### some batching to improve computation time. 
+
 import os
 import numpy as np
 import tensorflow as tf

@@ -1,3 +1,5 @@
+### This script is a builder for the neural network to be used.
+
 import tensorflow as tf
 
 def DNN_builder(in_shape=3, out_shape=1, n_hidden_layers=5, neuron_per_layer=32, actfn="tanh"):

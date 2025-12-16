@@ -1,3 +1,5 @@
+### This script implements the training of the PINN model
+
 import os
 import numpy as np
 import tensorflow as tf

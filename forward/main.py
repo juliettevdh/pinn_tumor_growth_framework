@@ -1,3 +1,7 @@
+### This main file defines a function called run_experiment which is 
+### used in "automatic.py" file to automatize experiments.
+
+
 import os
 from train_batch import train_pinn
 from data_utils import prepare_data
@@ -10,7 +14,7 @@ import numpy as np
 
 def run_experiment(config):
 
-    # --- Create unique folder for experiment ---
+    # --- Create folder for experiment ---
     exp_id = f"{config['experiment_name']}"
     save_dir = os.path.join("results/experiments_biostec_batch_200", exp_id)
     os.makedirs(save_dir, exist_ok=True)
@@ -39,7 +43,7 @@ def run_experiment(config):
 
     # --- Plot loss ---
     plt.rcParams.update({'font.size': 9})
-    plt.style.use('seaborn-v0_8-darkgrid')  # modern style with grid
+    plt.style.use('seaborn-v0_8-darkgrid')
     fig, ax = plt.subplots(figsize=(10, 5))
     epochs = np.arange(1, len(loss_history) + 1)
     ax.semilogy(epochs, loss_history, label='Loss', color='#1f77b4', linewidth=1.4, alpha=0.9)
@@ -67,6 +71,6 @@ def run_experiment(config):
         L=config.get('visualization', {}).get('L', 1.0)
     )
 
-    print(f"Experiment {exp_id} done. Outputs saved in {save_dir}")
+    print(f"Experiment done. Outputs saved in {save_dir}")
 
     return loss_history
