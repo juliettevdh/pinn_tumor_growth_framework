@@ -1,3 +1,12 @@
 .venv_biostec/*
-data/*
-results/*
+glioblastoma/data_glioblastoma/*
+glioblastoma/forward_glioblastoma/results/*
+glioblastoma/inverse_glioblastoma/results/*
+glioblastoma/results/*
+treatment_breast/data_breast/*
+treatment_breast/forward_breast/results/*
+treatment_breast/forward_breast/create_mat_files.py
+treatment_breast/inverse_breast/results/*
+analysis_script.py
+summary.csv
+test.py

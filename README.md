@@ -14,28 +14,53 @@ This repository contains the processing, training, and visualization scripts alo
 
 ## Project Structure
 
-The repository is organized into several main directories, separating forward modeling and inverse modeling.
+The repository is organized according to the considered application (glioblastoma or breast cancer under treatment) and the type of problem (forward simulation or inverse parameter estimation).
+
 ```
 .
-├── codes_forward/     # Forward modeling and simulation scripts
-│ ├── automatic.py     # Automates forward simulations and creates several experiments
-│ ├── data_utils.py    # Data loading and preprocessing functions for forward modeling
-│ ├── main.py          # Workflow of the configuration, training then visualization
-│ ├── model.py         # Defines the forward PINN architecture
-│ ├── train.py         # Model training script
-│ ├── train_batch.py   # Batch training version 
-│ ├── visualisation.py # Plotting and visualization utilities
-│ └── pycache/         # Compiled Python cache files
+├── glioblastoma/
+│   │
+│   ├── forward_glioblastoma/     # Forward PINN for glioblastoma growth prediction
+│   │   ├── automatic.py          # Automates forward simulations and creates several experiments
+│   │   ├── data_utils.py         # Data loading and preprocessing
+│   │   ├── main.py               # Main workflow: configuration, training, visualization
+│   │   ├── model.py              # PINN architecture definition
+│   │   ├── train.py              # Standard training procedure
+│   │   ├── train_batch.py        # Batch training procedure
+│   │   ├── visualisation.py      # Plotting and visualization utilities
+│   │
+│   └── inverse_glioblastoma/     # Inverse PINN for parameter estimation
+│       ├── automatic_inverse.py  # Automates inverse experiments
+│       ├── data_utils_inverse.py # Data loading and preprocessing
+│       ├── main_inverse.py       # Main workflow for inverse experiments
+│       ├── model.py              # PINN architecture definition
+│       ├── train_inverse_batch.py# Batch training for inverse problems
+│       ├── visualisation.py      # Plotting and visualization utilities
 │
-├── codes_inverse/           # Inverse problem scripts (parameter estimation)
-│ ├── automatic_inverse.py   # Automates inverse simulations
-│ ├── data_utils_inverse.py  # Data loading and preprocessing functions for inverse modeling
-│ ├── main_inverse.py        # Workflow of the configuration, training then visualization
-│ ├── model.py               # Defines the inverse PINN architecture
-│ ├── train_inverse_batch.py # Model training script for parameter and solution estimation
-│ ├── visualisation.py       # Plotting and visualization utilities
-│ └── pycache/               # Compiled Python cache files
-
+├── treatment_breast/
+│   │
+│   ├── forward_breast/           # Forward PINN for treatment simulations
+│   │   ├── automatic.py          # Automates forward experiments
+│   │   ├── data_utils.py         # Data loading and preprocessing
+│   │   ├── main.py               # Main workflow
+│   │   ├── model.py              # PINN architecture definition
+│   │   ├── train_batch.py        # Mini-batch training procedure
+│   │   ├── visualisation.py      # Plotting and visualization utilities
+│   │   └── results/              # Generated figures and experiment outputs
+│   │
+│   └── inverse_breast/           # Inverse PINN for treatment parameter estimation
+│       ├── automatic.py          # Automates inverse experiments
+│       ├── data_utils.py         # Data loading and preprocessing
+│       ├── main.py               # Main workflow
+│       ├── model.py              # PINN architecture definition
+│       ├── train_batch_inverse.py# Inverse training procedure
+│       ├── plot.py               # Additional plotting utilities
+│       ├── visualisation.py      # Visualization utilities
+│       └── results/              # Generated figures and experiment outputs
+│
+├── requirements.txt              # Python dependencies
+├── README.md                     # Project documentation
+├── LICENSE                       # Project license
 ```
 
 ## Installation
