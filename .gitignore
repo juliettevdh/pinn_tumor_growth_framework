@@ -10,4 +10,3 @@ treatment_breast/inverse_breast/results/*
 analysis_script.py
 summary.csv
 test.py
-.gitignore
