@@ -5,8 +5,8 @@ The repository presents two applications. The first framework addresses forward 
 The second framework extends the first by incorporating a treatment term into the governing PDE and applies the methodology to breast MRI data.
 All experiments are performed on synthetic tumors.
 This repository contains the processing, training, and visualization scripts along with the requirements needed to run the project.
-
----
+The dataset used for the glioblastoma application is available at the following repository: https://github.com/Rayzhangzirui/pinngbm/tree/main.
+The dataset used for the extended treatment framework on breast MRI is available through The Cancer Imaging Archive (TCIA) at: https://www.cancerimagingarchive.net/collection/acrin-6698/.
 
 ## Table of Contents
 - [Project Structure](#-project-structure)
