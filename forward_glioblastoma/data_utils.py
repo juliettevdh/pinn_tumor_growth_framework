@@ -71,7 +71,7 @@ def sample_initial_condition_points(pff_slice,n_points, x0, y0, rad):
     n_ic = 1
     n_data_per_ic = n_points
     data = np.zeros([n_ic, n_data_per_ic, 4])
-    radius = rad/2
+    radius = rad
     theta = np.random.uniform(0, 2 * np.pi, n_data_per_ic)
     r = radius * np.sqrt(np.random.uniform(0, 1, n_data_per_ic))
     x_circ = x0 + r * np.cos(theta)
@@ -157,22 +157,25 @@ def prepare_data(config, save_dir):
 
     # --- Plot ---
     fig, ax = plt.subplots(figsize=(9, 7))
-    ax.set_title("Collocation points distribution", fontsize=9)
-    sc3 = ax.scatter(ic_data[:, 0], ic_data[:, 1], s=9, marker="o",
-                     c=ic_data[:, 3], label="Data points (t=0)", alpha=0.7, linewidth=0.2)
+    ax.set_title("Collocation points distribution", fontsize=14)
+    #sc3 = ax.scatter(ic_data[:, 0], ic_data[:, 1], s=9, marker="o",
+                     #c=ic_data[:, 3], label="Data points (t=0)", alpha=0.7, linewidth=0.2)
     sc1 = ax.scatter(collocation_data[:, 0], collocation_data[:, 1], s=10, marker="o",
                      c="#90BFE8", label="Collocation points", alpha=0.7, edgecolor='k', linewidth=0.2)
-    if config["sampling"]["n_outside"] is not None:
-        sc4 = ax.scatter(anchors_out[:, 0], anchors_out[:, 1], s=12, marker="x",
-                         c=anchors_out[:, 3], label="Data points outside the brain", alpha=0.8)
+    #if config["sampling"]["n_outside"] is not None:
+        #sc4 = ax.scatter(anchors_out[:, 0], anchors_out[:, 1], s=12, marker="x",
+                         #c=anchors_out[:, 3], label="Data points outside the brain", alpha=0.8)
     ax.imshow(image, extent=(-1, 1, -1, 1), cmap="gray", origin="lower", alpha=0.3)
-    ax.set_xlabel("x", fontsize=9)
-    ax.set_ylabel("y", fontsize=9)
-    cbar = plt.colorbar(sc3, ax=ax, label="u [-]")
+    ax.set_xlabel("x", fontsize=15)
+    ax.set_ylabel("y", fontsize=15)
+    #cbar = plt.colorbar(sc3, ax=ax, label="u [-]")
+    #cbar.ax.tick_params(labelsize=15)
+    #cbar.set_label("u [-]", fontsize=17)
     ax.grid(True, linestyle=':', linewidth=0.5, alpha=0.7)
-    ax.legend(loc='upper right', fontsize=9, borderaxespad=0., frameon=True)
-    fig.savefig(f"{save_dir}/points_data_bigger_radius.png", dpi=300, bbox_inches='tight')
-    fig.savefig(f"{save_dir}/points_data_radius.svg", dpi=300, bbox_inches='tight')
+    ax.tick_params(axis='both', which='major', labelsize=15)
+    ax.legend(loc='upper right', fontsize=15, borderaxespad=0., frameon=True)
+    fig.savefig(f"{save_dir}/points_collocation_bigger_radius_distributed.png", dpi=300, bbox_inches='tight')
+    fig.savefig(f"{save_dir}/points_collocation_bigger_radius_distributed.svg", dpi=300, bbox_inches='tight')
     plt.close(fig)
 
     return {

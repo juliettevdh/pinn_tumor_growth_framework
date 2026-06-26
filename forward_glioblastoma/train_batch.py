@@ -37,6 +37,7 @@ def train_pinn(model, data, config, save_dir):
     pff_mapped = pff_volume.astype("float32")[..., None]
     diff_mapped = diff_volume.astype("float32")[..., None]
 
+    # ---Interpolators ---
     def pff_interp(v):
         v32 = tf.cast(v, tf.float32)
         i_x = (v32[:,0:1]+1.)/2.*(pff_mapped.shape[0]-1)
@@ -79,6 +80,7 @@ def train_pinn(model, data, config, save_dir):
         F = (u_tau - t_max * (D_norm * diff_map * (u_xx + u_yy) + r * u * (1 - u))) * pff_map
         return F
     
+    # ---Training step ---
     @tf.function
     def train_step(x_ic_b, y_ic_b, t_ic_b, u_ic_b, x_bc_b, y_bc_b, t_bc_b, u_bc_b, x_c_b, y_c_b, t_c_b):
         with tf.GradientTape() as tape:
@@ -121,6 +123,7 @@ def train_pinn(model, data, config, save_dir):
     iter_bc = iter(dataset_bc)
     iter_c = iter(dataset_c)
 
+    # ---Training loop ---
     for epoch in range(config["train"]["epochs"]):
         x_ic_b, y_ic_b, t_ic_b, u_ic_b = next(iter_ic)
         x_bc_b, y_bc_b, t_bc_b, u_bc_b = next(iter_bc)

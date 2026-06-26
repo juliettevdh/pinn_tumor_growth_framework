@@ -6,6 +6,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 import imageio.v2 as imageio
+from data_utils import load_mat, load_nifti
 
 def fdm_fisher_kpp_2d(diff_slice, phi_slice, D_phys=0.013, rho_phys=0.012, 
                       Nx=180, Ny=150, Nt=1000, t_max=200):
@@ -142,3 +143,4 @@ def visualize_solution_evolution(model, diff_slice, phi_slice, save_dir, config,
             writer.append_data(image)
 
     print(f"Comparison GIF saved: {save_dir}/{gif_name}")
+

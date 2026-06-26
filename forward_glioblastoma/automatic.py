@@ -10,12 +10,12 @@ EXPERIMENTS = [
 
     #=== ARCHITECTURE ===
 
-    {"name": "arch_02_test", "ic_x": 0.4, "ic_y": 0.4,
+    {"name": "for_figures", "ic_x": 0.4, "ic_y": 0.4,
     "D": 0.013, "r": 0.012, "radius": 0.35,
     "n_inside": 12000, "n_ic": 4000, "n_outside": 4000,
     "neurons": 32, "n_hidden_layers": 5, "actfn": "tanh",
     "epochs": 20000, "lr": 1e-3, "optimizer": "Adam", "batch_size": 256,
-    "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "centered"},
+    "alpha": 1, "beta": 1, "gamma": 1, "phi_slice_z": 166, "strategy": "distributed"},
 
     {"name": "arch_01", "ic_x": 0.4, "ic_y": 0.4,
     "D": 0.013, "r": 0.012, "radius": 0.35,
